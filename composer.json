@@ -1,0 +1,6 @@
+{
+    "name": "kosherkampus/entity-notificator",
+    "require": {
+        ""namshi/notificator": "1.0.*"
+    }
+}
