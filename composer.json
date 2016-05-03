@@ -1,6 +1,10 @@
 {
     "name": "kosherkampus/entity-notificator",
     "require": {
-        "namshi/notificator": "1.0.*"
+        "namshi/notificator": "1.0.*",
+        "phpunit/phpunit": "5.3.*"
+    },
+    "autoload": {
+        "psr-0": {"KosherKampus": "src/"}
     }
 }

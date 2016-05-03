@@ -1,6 +1,6 @@
 <?php
 
-namespace Namshi\Notificator\Notification\Entity;
+namespace KosherKampus\EntityNotificator\Notifications\Entity;
 
 use Namshi\Notificator\NotificationInterface;
 
@@ -9,7 +9,7 @@ use Namshi\Notificator\NotificationInterface;
  */
 interface EntityNotificationInterface extends NotificationInterface
 {
-    public function getCode();
     public function getSubjectType();
     public function getObjectType();
+    public function getTimestamp();
 }

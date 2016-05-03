@@ -1,14 +1,14 @@
 <?php
 
-namespace Namshi\Notificator\Notification\Entity;
+namespace KosherKampus\EntityNotificator\Notifications\Entity;
 
-use Namshi\Notificator\Notification;
-use Namshi\Notification\Email\EmailNotificationInterface;
+use Namshi\Notificator\Notification\Email\EmailNotification;
+use Namshi\Notificator\Notification\Email\EmailNotificationInterface;
 
 /**
  * Class representing a notification that needs to be sent via email.
  */
-class EntityNotification extends Notification implements EntityNotificationInterface, EmailNotificationInterface
+class EntityNotification extends EmailNotification implements EntityNotificationInterface, EmailNotificationInterface
 {
    /**
      * Type of the entity that performs the action.
@@ -38,12 +38,7 @@ class EntityNotification extends Notification implements EntityNotificationInter
      */
     protected $recipientAddresses = [];
     
-     /**
-     * Unique id for use in factory class when instantiating new notifications
-     *
-     * @var string
-     */
-     protected static $entityCode;
+    protected $action;
      
     /**
      * Constructor.
@@ -51,14 +46,19 @@ class EntityNotification extends Notification implements EntityNotificationInter
      * @param array|string $recipientAddress
      * @param array $parameters
      */
-    public function __construct($emailTemplate, $recipientAddresses, $subjectType ='' ,
-    $objectType = '', array $parameters = array())
+     
+    public function __construct($emailTemplate, $recipientAddresses, array $parameters = array(), $timestamp = null)
     {
-        $this->recipientAddresses = is_array($recipientAddresses) ? $recipientAddresses : [$recipientAddresses];
-        $this->parameters         = $parameters;
-        $this->emailTemplate      = $emailTemplate;
-        $this->subjectType = $subjectType;
-        $this->onjectType = $objectType;
+        parent::__construct($emailTemplate, $recipientAddresses, $parameters);
+        $this->timestamp = $timestamp or time();
+        
+        //main attributes for an entity notification
+        foreach(['action', 'subjectType', 'objectType', 'timestamp'] as $item) {
+            if (array_key_exists($item, $parameters)) {
+                $this->$item = $parameters[$item];
+            }
+        }
+        
     }
     
     /**
@@ -77,10 +77,15 @@ class EntityNotification extends Notification implements EntityNotificationInter
         return $this->emailTemplate;
     }
     
-     /**
-     * @inheritDoc
-     */
-    public function getCode() {
-        return SELF::$entityCode;
+    public function getObjectType() {
+        return $this->objectType;
+    }
+    
+    public function getSubjectType() {
+        return $this->subjectType;
+    }
+    
+    public function getTimeStamp() {
+        return $this->timestamp;
     }
 }
