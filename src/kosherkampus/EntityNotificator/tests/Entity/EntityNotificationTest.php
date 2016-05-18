@@ -8,7 +8,6 @@ class EntityNotificationTest extends PHPUnit_Framework_TestCase {
     private $params = ['subjectType' => 'user', 'objectType' => 'user', 'action' => 'started following',
     'subjectName' => 'Jane Doe', 'objectName'=> 'John Doe'];
     private $recipentAddresses = ['john_doe@yahoo.com', 'john_doe@msn.com', 'joh_doe@gmail.com'];
-    private $manager = new Manager();
     
     public function testEntityCreation() { 
        $entity = new EntityNotification('email.txt', $this->recipentAddresses, $this->params);
@@ -20,9 +19,9 @@ class EntityNotificationTest extends PHPUnit_Framework_TestCase {
      @depends testEntityCreation
    */
    public function assertEntityAttributes($entity) {
-       $this->assertEqual($this->params['subjectType'], $entity->getSubjectType());
-       $this->assertEqual($this->params['objectType'], $entity->getObjectType());
-       $this->assertNotEmpty($entity->getTimestamp());
+       $this->assertEqual($this->getParameter('subjectType'), $entity->getSubjectType());
+       $this->assertEqual($this->getParameter['objectType'], $entity->getObjectType());
+       $this->assertNotEmpty($entity->getParameter('timestamp'));
    }
    
    /**
